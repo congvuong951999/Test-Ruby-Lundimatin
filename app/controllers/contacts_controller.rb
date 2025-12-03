@@ -22,8 +22,6 @@ class ContactsController < ApplicationController
       
       @contacts = filter_contacts(all_contacts, @search_term)
       
-      Rails.logger.debug "All contacts: #{all_contacts.length}, Filtered: #{@contacts.length}"
-      
     rescue LundimatinAPIClient::APIError => e
       handle_search_error(e)
     rescue StandardError => e
@@ -128,7 +126,6 @@ class ContactsController < ApplicationController
   
   def handle_search_error(error)
     @contacts = []
-    Rails.logger.error "#{error.class}: #{error.message}"
     flash.now[:alert] = "Search error: #{error.message}"
   end
   

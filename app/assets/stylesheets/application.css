@@ -25,6 +25,11 @@
   --error: #d63031;
 }
 
+/* Turbo Progress Bar - Hide or customize */
+.turbo-progress-bar {
+  display: none;
+}
+
 /* Reset and Base */
 * {
   margin: 0;
@@ -170,6 +175,7 @@ body {
 .alert {
   padding: 12px 16px;
   border-radius: 8px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 

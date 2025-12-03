@@ -31,6 +31,8 @@ class LundimatinAPIClient
     uri = URI("#{base_url}auth")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    http.open_timeout = 10
+    http.read_timeout = 10
     
     request = Net::HTTP::Post.new(uri.path)
     set_headers(request, include_content_type: true)
@@ -83,6 +85,8 @@ class LundimatinAPIClient
     
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    http.open_timeout = 10
+    http.read_timeout = 10
     
     request_class = case method.upcase
                     when 'GET'

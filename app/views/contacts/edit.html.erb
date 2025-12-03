@@ -70,7 +70,7 @@
           </div>
           
           <div class="edition-actions">
-            <%= link_to "Annuler", contact_path(@contact['id']), class: "btn btn-cancel" %>
+            <%= link_to "Annuler", contact_path(@contact['id']), class: "btn btn-cancel", data: { turbo_prefetch: false } %>
             <%= f.submit "Enregistrer", class: "btn btn-save" %>
           </div>
         <% end %>
