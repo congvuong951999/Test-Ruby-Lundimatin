@@ -1,0 +1,91 @@
+<div class="contacts-container">
+  <%= render 'shared/header' %>
+  
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Div 1: Title -->
+    <div class="search-title-section">
+      <h2>Recherche d'une fiche de contact</h2>
+    </div>
+    
+    <!-- Div 2: Search Form -->
+    <div class="search-form-section">
+      <% if flash[:alert] %>
+        <div class="alert alert-error">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+      
+      <% if flash[:notice] %>
+        <div class="alert alert-success">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+      
+      <%= form_with url: contacts_path, method: :get, local: true, class: "search-form" do |f| %>
+        <div class="search-input-group">
+          <div class="search-input-group-label">
+            <label for="search" class="search-label">Renseigner un nom ou une dénomination</label>
+          </div>
+          <div class="search-input-wrapper">
+            <%= text_field_tag :search, 
+                @search_term, 
+                class: "search-input", 
+                placeholder: "Nom ou dénomination",
+                id: "search" %>
+            <%= f.submit "Rechercher", class: "btn btn-search", name: nil %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <!-- Div 3: Results Table -->
+    <% if @contacts.present? && @contacts.is_a?(Array) && @contacts.length > 0 %>
+      <div class="results-table-container">
+        <table class="contacts-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nom</th>
+              <th>Adresse</th>
+              <th>Ville</th>
+              <th>Téléphone</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contacts.each do |contact| %>
+              <% next unless contact.is_a?(Hash) && contact['id'].present? %>
+              <tr>
+                <td class="avatar-cell">
+                  <div class="avatar" data-initials="<%= get_initials(contact['nom'] || '') %>">
+                    <%= get_initials(contact['nom'] || '') %>
+                  </div>
+                </td>
+                <td>
+                  <span class="contact-name"><%= contact['nom'] || 'N/A' %></span>
+                </td>
+                <td><%= contact['adresse'] || '' %></td>
+                <td><%= contact['ville'] || '' %></td>
+                <td><%= contact['tel'] || '' %></td>
+                <td>
+                  <%= link_to contact_path(contact['id']), class: "btn btn-view" do %>
+                    <svg class="icon-search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg>
+                    Voir
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% elsif @search_term.present? %>
+      <div class="no-results">
+        <p>No results found for "<%= @search_term %>"</p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
